@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="scene" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dip_rgb_converter.mainFXMLController">
+   <top>
+      <VBox BorderPane.alignment="CENTER">
+         <MenuBar>
+            <menus>
+               <Menu text="File">
+                  <items>
+                     <MenuItem fx:id="menuOpenFile" onAction="#handleOpenFile" text="Open File" />
+                     <MenuItem fx:id="menuSaveFile" mnemonicParsing="false" onAction="#handleSaveFile" text="Save File" />
+                     <SeparatorMenuItem mnemonicParsing="false" />
+                     <MenuItem fx:id="openPcCamera" mnemonicParsing="false" onAction="#startCamera" text="Open Camera" />
+                     <MenuItem fx:id="closePcCamera" mnemonicParsing="false" onAction="#stopCamera" text="Close Camera" />
+                  </items>
+               </Menu>
+               <Menu mnemonicParsing="false" text="Edit">
+                 <items>
+                   <MenuItem fx:id="menuUndo" mnemonicParsing="false" onAction="#undo" text="Undo" />
+                 </items>
+               </Menu>
+               <Menu mnemonicParsing="false" text="Help">
+                 <items>
+                   <MenuItem fx:id="menuGettingStarted" mnemonicParsing="false" onAction="#openHelpFile" text="Getting Started" />
+                     <MenuItem fx:id="menuColorModels" mnemonicParsing="false" onAction="#openModelsFile" text="Color Models" />
+                 </items>
+               </Menu>
+            </menus>
+         </MenuBar>
+      </VBox>
+   </top>
+   <center>
+      <SplitPane dividerPositions="0.6" orientation="HORIZONTAL" BorderPane.alignment="CENTER">
+         <VBox styleClass="image-container">
+            <StackPane styleClass="image-view-container" VBox.vgrow="ALWAYS">
+               <ImageView fx:id="imageView" fitHeight="600.0" fitWidth="600.0" preserveRatio="true" />
+            </StackPane>
+         </VBox>
+         <VBox alignment="CENTER" styleClass="controls-panel">
+            
+            <Label styleClass="section-label" text="Adjustment Sliders">
+               <graphic>
+                  <Region styleClass="icon-sliders" />
+               </graphic>
+               <VBox.margin>
+                  <Insets top="15.0" />
+               </VBox.margin>
+            </Label>
+            
+            <TabPane fx:id="adjustmentTabPane" styleClass="adjustment-tabs" VBox.vgrow="ALWAYS">
+               <!-- RGB Tab -->
+               <Tab fx:id="rgbTab" closable="false" text="RGB">
+                  <VBox spacing="15.0" styleClass="sliders-container">
+                     <VBox spacing="5.0">
+                        <HBox alignment="CENTER_LEFT">
+                           <Label text="Red" />
+                           <Label fx:id="redValueLabel" styleClass="slider-value" text="32" />
+                        </HBox>
+                        <Slider fx:id="rgbRedSlider" max="255.0" onMouseReleased="#handleChangeRGB" styleClass="red-slider" value="32.0" />
+                     </VBox>
+                     <VBox spacing="5.0">
+                        <HBox alignment="CENTER_LEFT">
+                           <Label text="Green" />
+                           <Label fx:id="greenValueLabel" styleClass="slider-value" text="32" />
+                        </HBox>
+                        <Slider fx:id="rgbGreenSlider" max="255.0" onDragDone="#handleChangeRGB" onDragOver="#handleChangeRGB" onMouseReleased="#handleChangeRGB" styleClass="green-slider" value="32.0" />
+                     </VBox>
+                     <VBox spacing="5.0">
+                        <HBox alignment="CENTER_LEFT">
+                           <Label text="Blue" />
+                           <Label fx:id="blueValueLabel" styleClass="slider-value" text="32" />
+                        </HBox>
+                        <Slider fx:id="rgbBlueSlider" max="255.0" onDragDone="#handleChangeRGB" onDragOver="#handleChangeRGB" onMouseReleased="#handleChangeRGB" styleClass="blue-slider" value="32.0" />
+                     </VBox>
+                  </VBox>
+               </Tab>
+               
+               <!-- CMY Tab -->
+               <Tab fx:id="cmyTab" closable="false" text="CMY">
+                  <VBox spacing="15.0" styleClass="sliders-container">
+                     <VBox spacing="5.0">
+                        <HBox alignment="CENTER_LEFT">
+                           <Label text="Cyan" />
+                           <Label fx:id="cyanValueLabel" styleClass="slider-value" text="0%" />
+                        </HBox>
+                        <Slider fx:id="cyanSlider" onMouseReleased="#handleChangeCMY" styleClass="cyan-slider" />
+                     </VBox>
+                     <VBox spacing="5.0">
+                        <HBox alignment="CENTER_LEFT">
+                           <Label text="Magenta" />
+                           <Label fx:id="magentaValueLabel" styleClass="slider-value" text="0%" />
+                        </HBox>
+                        <Slider fx:id="magentaSlider" onMouseReleased="#handleChangeCMY" styleClass="magenta-slider" />
+                     </VBox>
+                     <VBox spacing="5.0">
+                        <HBox alignment="CENTER_LEFT">
+                           <Label text="Yellow" />
+                           <Label fx:id="yellowValueLabel" styleClass="slider-value" text="0%" />
+                        </HBox>
+                        <Slider fx:id="yellowSlider" onMouseReleased="#handleChangeCMY" styleClass="yellow-slider" />
+                     </VBox>
+                  </VBox>
+               </Tab>
+               
+               <!-- Lab Tab -->
+               <Tab closable="false" text="Lab">
+                  <VBox spacing="15.0" styleClass="sliders-container">
+                     <VBox spacing="5.0">
+                        <HBox alignment="CENTER_LEFT">
+                           <Label text="L (Lightness)" />
+                           <Label fx:id="labLValueLabel" styleClass="slider-value" text="100" />
+                        </HBox>
+                        <Slider fx:id="labLSlider" max="100.0" onMouseReleased="#handleChangeLab" value="100.0" />
+                     </VBox>
+                     <VBox spacing="5.0">
+                        <HBox alignment="CENTER_LEFT">
+                           <Label text="a (Green-Red)" />
+                           <Label fx:id="labAValueLabel" styleClass="slider-value" text="0" />
+                        </HBox>
+                        <Slider fx:id="labASlider" max="127.0" min="-128.0" onMouseReleased="#handleChangeLab" value="0.0" />
+                     </VBox>
+                     <VBox spacing="5.0">
+                        <HBox alignment="CENTER_LEFT">
+                           <Label text="b (Blue-Yellow)" />
+                           <Label fx:id="labBValueLabel" styleClass="slider-value" text="0" />
+                        </HBox>
+                        <Slider fx:id="labBSlider" max="127.0" min="-128.0" onMouseReleased="#handleChangeLab" value="0.0" />
+                     </VBox>
+                  </VBox>
+               </Tab>
+               
+               <!-- RYB Tab -->
+               <Tab closable="false" text="RYB">
+                  <VBox spacing="15.0" styleClass="sliders-container">
+                     <VBox spacing="5.0">
+                        <HBox alignment="CENTER_LEFT">
+                           <Label text="Red" />
+                           <Label fx:id="rybRedValueLabel" styleClass="slider-value" text="255" />
+                        </HBox>
+                        <Slider fx:id="rybRedSlider" max="255.0" onMouseReleased="#handleChangeRYB" styleClass="red-slider" value="100.0" />
+                     </VBox>
+                     <VBox spacing="5.0">
+                        <HBox alignment="CENTER_LEFT">
+                           <Label text="Yellow" />
+                           <Label fx:id="rybYellowValueLabel" styleClass="slider-value" text="255" />
+                        </HBox>
+                        <Slider fx:id="rybYellowSlider" max="255.0" onMouseReleased="#handleChangeRYB" styleClass="yellow-slider" value="100.0" />
+                     </VBox>
+                     <VBox spacing="5.0">
+                        <HBox alignment="CENTER_LEFT">
+                           <Label text="Blue" />
+                           <Label fx:id="rybBlueValueLabel" styleClass="slider-value" text="255" />
+                        </HBox>
+                        <Slider fx:id="rybBlueSlider" max="255.0" onMouseReleased="#handleChangeRYB" styleClass="blue-slider" value="100.0" />
+                     </VBox>
+                  </VBox>
+               </Tab>
+               
+               <!-- HSV Tab -->
+               <Tab closable="false" text="HSV">
+                  <VBox spacing="15.0" styleClass="sliders-container">
+                     <VBox spacing="5.0">
+                        <HBox alignment="CENTER_LEFT">
+                           <Label text="Hue" />
+                           <Label fx:id="hsvHueValueLabel" styleClass="slider-value" text="0°" />
+                        </HBox>
+                        <Slider fx:id="hsvHueSlider" max="180.0" onMouseReleased="#handleChangeHSV" value="0.0" />
+                     </VBox>
+                     <VBox spacing="5.0">
+                        <HBox alignment="CENTER_LEFT">
+                           <Label text="Saturation" />
+                           <Label fx:id="hsvSaturationValueLabel" styleClass="slider-value" text="0%" />
+                        </HBox>
+                        <Slider fx:id="hsvSaturationSlider" max="255.0" onMouseReleased="#handleChangeHSV" value="0.0" />
+                     </VBox>
+                     <VBox spacing="5.0">
+                        <HBox alignment="CENTER_LEFT">
+                           <Label text="Value" />
+                           <Label fx:id="hsvValueValueLabel" styleClass="slider-value" text="100%" />
+                        </HBox>
+                        <Slider fx:id="hsvValueSlider" max="255.0" onMouseReleased="#handleChangeHSV" />
+                     </VBox>
+                  </VBox>
+               </Tab>
+               
+               <!-- HSL Tab -->
+               <Tab closable="false" text="HSL">
+                  <VBox spacing="15.0" styleClass="sliders-container">
+                     <VBox spacing="5.0">
+                        <HBox alignment="CENTER_LEFT">
+                           <Label text="Hue" />
+                           <Label fx:id="hslHueValueLabel" styleClass="slider-value" text="0°" />
+                        </HBox>
+                        <Slider fx:id="hslHueSlider" max="360.0" onMouseReleased="#handleChangeHSL" value="0.0" />
+                     </VBox>
+                     <VBox spacing="5.0">
+                        <HBox alignment="CENTER_LEFT">
+                           <Label text="Saturation" />
+                           <Label fx:id="hslSaturationValueLabel" styleClass="slider-value" text="0%" />
+                        </HBox>
+                        <Slider fx:id="hslSaturationSlider" max="100.0" onMouseReleased="#handleChangeHSL" value="0.0" />
+                     </VBox>
+                     <VBox spacing="5.0">
+                        <HBox alignment="CENTER_LEFT">
+                           <Label text="Lightness" />
+                           <Label fx:id="hslLightnessValueLabel" styleClass="slider-value" text="100%" />
+                        </HBox>
+                        <Slider fx:id="hslLightnessSlider" max="100.0" onMouseReleased="#handleChangeHSL" value="100.0" />
+                     </VBox>
+                  </VBox>
+               </Tab>
+               
+               <!-- HSI Tab -->
+               <Tab closable="false" text="HSI">
+                  <VBox spacing="15.0" styleClass="sliders-container">
+                     <VBox spacing="5.0">
+                        <HBox alignment="CENTER_LEFT">
+                           <Label text="Hue" />
+                           <Label fx:id="hsiHueValueLabel" styleClass="slider-value" text="0°" />
+                        </HBox>
+                        <Slider fx:id="hsiHueSlider" max="180.0" onMouseReleased="#handleChangeHSI" value="100.0" />
+                     </VBox>
+                     <VBox spacing="5.0">
+                        <HBox alignment="CENTER_LEFT">
+                           <Label text="Saturation" />
+                           <Label fx:id="hsiSaturationValueLabel" styleClass="slider-value" text="0%" />
+                        </HBox>
+                        <Slider fx:id="hsiSaturationSlider" max="255.0" onMouseReleased="#handleChangeHSI" value="100.0" />
+                     </VBox>
+                     <VBox spacing="5.0">
+                        <HBox alignment="CENTER_LEFT">
+                           <Label text="Intensity" />
+                           <Label fx:id="hsiIntensityValueLabel" styleClass="slider-value" text="100%" />
+                        </HBox>
+                        <Slider fx:id="hsiIntensitySlider" max="255.0" onMouseReleased="#handleChangeHSI" value="100.0" />
+                     </VBox>
+                  </VBox>
+               </Tab>
+               
+               <!-- YUV Tab -->
+               <Tab closable="false" text="YUV">
+                  <VBox spacing="15.0" styleClass="sliders-container">
+                     <VBox spacing="5.0">
+                        <HBox alignment="CENTER_LEFT">
+                           <Label text="Y (Luminance)" />
+                           <Label fx:id="yuvYValueLabel" styleClass="slider-value" text="255" />
+                        </HBox>
+                        <Slider fx:id="yuvYSlider" max="255.0" onMouseReleased="#handleChangeYUV" value="100.0" />
+                     </VBox>
+                     <VBox spacing="5.0">
+                        <HBox alignment="CENTER_LEFT">
+                           <Label text="U (Chrominance)" />
+                           <Label fx:id="yuvUValueLabel" styleClass="slider-value" text="0" />
+                        </HBox>
+                        <Slider fx:id="yuvUSlider" max="255.0" onMouseReleased="#handleChangeYUV" value="100.0" />
+                     </VBox>
+                     <VBox spacing="5.0">
+                        <HBox alignment="CENTER_LEFT">
+                           <Label text="V (Chrominance)" />
+                           <Label fx:id="yuvVValueLabel" styleClass="slider-value" text="0" />
+                        </HBox>
+                        <Slider fx:id="yuvVSlider" max="255.0" onMouseReleased="#handleChangeYUV" value="100.0" />
+                     </VBox>
+                  </VBox>
+               </Tab>
+               
+               <!-- YIQ Tab -->
+               <Tab closable="false" text="YIQ">
+                  <VBox spacing="15.0" styleClass="sliders-container">
+                     <VBox spacing="5.0">
+                        <HBox alignment="CENTER_LEFT">
+                           <Label text="Y (Luminance)" />
+                           <Label fx:id="yiqYValueLabel" styleClass="slider-value" text="1.0" />
+                        </HBox>
+                        <Slider fx:id="yiqYSlider" max="255.0" onMouseReleased="#handleChangeYIQ" value="100.0" />
+                     </VBox>
+                     <VBox spacing="5.0">
+                        <HBox alignment="CENTER_LEFT">
+                           <Label text="I (In-phase)" />
+                           <Label fx:id="yiqIValueLabel" styleClass="slider-value" text="0" />
+                        </HBox>
+                        <Slider fx:id="yiqISlider" max="255.0" onMouseReleased="#handleChangeYIQ" value="100.0" />
+                     </VBox>
+                     <VBox spacing="5.0">
+                        <HBox alignment="CENTER_LEFT">
+                           <Label text="Q (Quadrature)" />
+                           <Label fx:id="yiqQValueLabel" styleClass="slider-value" text="0" />
+                        </HBox>
+                        <Slider fx:id="yiqQSlider" max="255.0" onMouseReleased="#handleChangeYIQ" value="100.0" />
+                     </VBox>
+                  </VBox>
+               </Tab>
+               
+               <!-- XYZ Tab -->
+               <Tab closable="false" text="XYZ">
+                  <VBox spacing="15.0" styleClass="sliders-container">
+                     <VBox spacing="5.0">
+                        <HBox alignment="CENTER_LEFT">
+                           <Label text="X" />
+                           <Label styleClass="slider-value" text="95.05" fx:id="xyzXValueLabel" />
+                        </HBox>
+                        <Slider max="255.0" onMouseReleased="#handleChangeXYZ" value="100.0" fx:id="xyzXSlider" />
+                     </VBox>
+                     <VBox spacing="5.0">
+                        <HBox alignment="CENTER_LEFT">
+                           <Label text="Y" />
+                           <Label styleClass="slider-value" text="100.0" fx:id="xyzYValueLabel" />
+                        </HBox>
+                        <Slider max="255.0" onMouseReleased="#handleChangeXYZ" value="100.0" fx:id="xyzYSlider" />
+                     </VBox>
+                     <VBox spacing="5.0">
+                        <HBox alignment="CENTER_LEFT">
+                           <Label text="Z" />
+                           <Label styleClass="slider-value" text="108.9" fx:id="xyzZValueLabel" />
+                        </HBox>
+                        <Slider max="255.0" onMouseReleased="#handleChangeXYZ" value="100.0" fx:id="xyzZSlider" />
+                     </VBox>
+                  </VBox>
+               </Tab>
+            </TabPane>
+            
+            <Separator />
+            <Button fx:id="convertBtn" alignment="CENTER" layoutX="175.0" layoutY="603.0" onAction="#convertImage" styleClass="tool-button" text="Apply" />
+         </VBox>
+      </SplitPane>
+   </center>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</BorderPane>
